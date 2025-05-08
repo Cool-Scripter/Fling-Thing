@@ -1,8 +1,8 @@
---//Força Do Caralho pra jogar longe\\-- 
-local StrenghtMultiplier = 10000 -- Valor inicial
+--//Força\\-- 
+local StrenghtMultiplier = 450
 --\\End//--
 
---//Não sei que porra é essa mas eu fiz kkkkkk\\-- 
+--//Var\\-- 
 local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
 local Debris = game:GetService("Debris")
@@ -11,7 +11,7 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 --\\End//--
 
---//Interface\\--
+--//Interface UI\\--
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "StrenghtDisplay"
 screenGui.ResetOnSpawn = false
@@ -26,26 +26,52 @@ textLabel.TextScaled = true
 textLabel.Font = Enum.Font.SourceSansBold
 textLabel.Text = "Strenght: " .. StrenghtMultiplier
 textLabel.Parent = screenGui
---\\End//--
 
---//Função para atualizar a porra da UI\\--
 local function updateLabel()
 	textLabel.Text = "Strenght: " .. StrenghtMultiplier
 end
 
---//n sei\\--
+--//Botões Touch para Celular\\--
+local increaseButton = Instance.new("TextButton")
+increaseButton.Size = UDim2.new(0, 100, 0, 50)
+increaseButton.Position = UDim2.new(1, -220, 1, -120)
+increaseButton.AnchorPoint = Vector2.new(0, 1)
+increaseButton.Text = "+ Força"
+increaseButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+increaseButton.TextColor3 = Color3.new(1, 1, 1)
+increaseButton.Parent = screenGui
+
+local decreaseButton = Instance.new("TextButton")
+decreaseButton.Size = UDim2.new(0, 100, 0, 50)
+decreaseButton.Position = UDim2.new(1, -110, 1, -120)
+decreaseButton.AnchorPoint = Vector2.new(0, 1)
+decreaseButton.Text = "- Força"
+decreaseButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+decreaseButton.TextColor3 = Color3.new(1, 1, 1)
+decreaseButton.Parent = screenGui
+
+--//Funções dos Botões\\--
+increaseButton.MouseButton1Click:Connect(function()
+	StrenghtMultiplier += 100
+	updateLabel()
+end)
+
+decreaseButton.MouseButton1Click:Connect(function()
+	StrenghtMultiplier = math.max(100, StrenghtMultiplier - 100)
+	updateLabel()
+end)
+
+--//Teclas para PC\\--
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	if gameProcessed then return end
-
 	if input.KeyCode == Enum.KeyCode.R then
-		StrenghtMultiplier = StrenghtMultiplier + 100
+		StrenghtMultiplier += 100
 		updateLabel()
 	elseif input.KeyCode == Enum.KeyCode.Q then
 		StrenghtMultiplier = math.max(100, StrenghtMultiplier - 100)
 		updateLabel()
 	end
 end)
---\\End//--
 
 --//Fling\\--
 Workspace.ChildAdded:Connect(function(NewModel)
@@ -67,4 +93,4 @@ Workspace.ChildAdded:Connect(function(NewModel)
 		end
 	end
 end)
---\\End//--
+
